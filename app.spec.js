@@ -9,9 +9,14 @@ describe("Testing RSP endpoints", () => {
     Game.findById = jest.fn().mockResolvedValue({
       _id: "63b048cade1b0dc478bee034",
       rounds: [
-        {actions: [{nickname: 'user1', action: "scissors"}, 
-                   {nickname: 'user2', action: "paper"}], winner: 'user1'},
-        {actions: [{nickname: 'user1', action: "scissors"}], winner: ''}
+        {
+          actions: [
+            { nickname: "user1", action: "scissors" },
+            { nickname: "user2", action: "paper" },
+          ],
+          winner: "user1",
+        },
+        { actions: [{ nickname: "user1", action: "scissors" }], winner: "" },
       ],
     });
 
@@ -20,8 +25,8 @@ describe("Testing RSP endpoints", () => {
       .then((response) => {
         expect(response.statusCode).toBe(200);
         expect(response.body["_id"]).toBe("63b048cade1b0dc478bee034");
-        expect(response.body.rounds[0].actions[0].nickname).toBe('user1');
-        expect(response.body.rounds[0].actions[1].nickname).toBe('user2');
+        expect(response.body.rounds[0].actions[0].nickname).toBe("user1");
+        expect(response.body.rounds[0].actions[1].nickname).toBe("user2");
         expect(response.body.rounds[1].actions.length).toBe(0);
         done();
       });

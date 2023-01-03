@@ -11,7 +11,7 @@ import { LOGGER_FORMAT } from "./constants/logger.js";
 import { getGameWinner, getRoundWinner, notifyPlayers } from "./utils/utils.js";
 
 //Reading config file
-export const CONFIG = JSON.parse(fs.readFileSync('./env.json', 'utf8'));
+export const CONFIG = JSON.parse(fs.readFileSync("./env.json", "utf8"));
 
 //Initializing the logging system
 export const logger = winston.createLogger({

@@ -1,19 +1,98 @@
-# rsp-backend
+# Rock, Scissors, Paper backend.
 
 This is a backend for Rock, Scissors, Paper game.
+It uses express.js framework, MongoDB for storing data, Winston for logging.
 
-# Installation
+## Installation
 
+To install the application dependencies simply do
+
+```
 npm install
+```
 
-# Starting
+Then create env.json file with configuration in the root of the app. Please see env_sample.json to understand what fields should be determined.
 
+## Starting
+
+To start the application please use following command:
+
+```
 npm start
+```
 
-# Testing
+## Testing
 
+To start tests please use following command:
+
+```
 npm test
+```
 
-# Useful commands
+## Useful commands
 
-npm run format - format code by prettier
+Format code with prettier:
+
+```
+npm run format
+```
+
+# API specification
+
+## GET /game/:gameId
+
+Get a game object.
+
+Payload: None
+Return object:
+
+```
+{
+  max_rounds: number,
+  players: [{ nickname: string }, ...],
+  current_round: number,
+  rounds: [
+    {
+      actions: [{ nickname: string, action: string }, ...],
+      winner: string,
+    },
+  ],
+  state: string,
+}
+```
+
+## POST /game
+
+Create a new game.
+
+Payload: {nickname: string, max_rounds: string}
+Return object: {}
+
+## POST /game/:gameId/join
+
+Join to the game.
+
+Payload: {nickname: string}
+Return object: {}
+
+## POST /game/:gameId/action
+
+Make an action on the game.
+
+Payload: {nickname: string, action: string}
+Return object: {}
+
+## GET /stat
+
+Get statistics.
+
+Payload: None
+Return object:
+
+```
+{[
+  nickname: string,
+  win_rounds: number,
+  win_games: numer,
+]}
+```
