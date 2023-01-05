@@ -1,4 +1,5 @@
 # Rock, Scissors, Paper backend.
+[![deploy](https://github.com/malafeev01/rsp-backend/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/malafeev01/rsp-backend/actions/workflows/deploy.yml)
 
 This is a backend for Rock, Scissors, Paper game.
 It uses express.js framework, MongoDB for storing data, Winston for logging.
