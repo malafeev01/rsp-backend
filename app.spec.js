@@ -25,7 +25,7 @@ describe("Testing RSP endpoints", () => {
     });
 
     request(app)
-      .get("/game/63b048cade1b0dc478bee034")
+      .get("/api/game/63b048cade1b0dc478bee034")
       .then((response) => {
         expect(response.statusCode).toBe(200);
         expect(response.body["_id"]).toBe("63b048cade1b0dc478bee034");
@@ -40,7 +40,7 @@ describe("Testing RSP endpoints", () => {
     Game.findById = jest.fn().mockResolvedValue(null);
 
     request(app)
-      .get("/game/63b048cade1b0dc478bee034")
+      .get("/api/game/63b048cade1b0dc478bee034")
       .then((response) => {
         expect(response.statusCode).toBe(404);
         expect(response.body.code).toBe(404);
@@ -54,7 +54,7 @@ describe("Testing RSP endpoints", () => {
   // Testing POST /game/
   test("/api/game", (done) => {
     request(app)
-      .post("/game")
+      .post("/api/game")
       .send({ nickname: "user1", max_rounds: "5" })
       .then((response) => {
         expect(response.statusCode).toBe(200);
@@ -65,7 +65,7 @@ describe("Testing RSP endpoints", () => {
 
   test("/api/game - 400 invalid max rounds", (done) => {
     request(app)
-      .post("/game")
+      .post("/api/game")
       .send({ nickname: "user1", max_rounds: "11" })
       .then((response) => {
         expect(response.statusCode).toBe(400);
@@ -76,7 +76,7 @@ describe("Testing RSP endpoints", () => {
       });
 
     request(app)
-      .post("/game")
+      .post("/api/game")
       .send({ nickname: "user1" })
       .then((response) => {
         expect(response.statusCode).toBe(400);
@@ -90,7 +90,7 @@ describe("Testing RSP endpoints", () => {
 
   test("/api/game - 400 invalid nickname", (done) => {
     request(app)
-      .post("/game")
+      .post("/api/game")
       .send({ max_rounds: "5" })
       .then((response) => {
         expect(response.statusCode).toBe(400);
@@ -113,7 +113,7 @@ describe("Testing RSP endpoints", () => {
     });
 
     request(app)
-      .post("/game/63b048cade1b0dc478bee034/join")
+      .post("/api/game/63b048cade1b0dc478bee034/join")
       .send({ nickname: "user1" })
       .then((response) => {
         expect(response.statusCode).toBe(200);
@@ -128,7 +128,7 @@ describe("Testing RSP endpoints", () => {
     });
 
     request(app)
-      .post("/game/63b048cade1b0dc478bee034/join")
+      .post("/api/game/63b048cade1b0dc478bee034/join")
       .send({ nickname: "user3" })
       .then((response) => {
         expect(response.statusCode).toBe(400);
@@ -147,7 +147,7 @@ describe("Testing RSP endpoints", () => {
     });
 
     request(app)
-      .post("/game/63b048cade1b0dc478bee034/join")
+      .post("/api/game/63b048cade1b0dc478bee034/join")
       .send({ nickname: "user1" })
       .then((response) => {
         expect(response.statusCode).toBe(400);
@@ -165,7 +165,7 @@ describe("Testing RSP endpoints", () => {
     });
 
     request(app)
-      .post("/game/63b048cade1b0dc478bee034/join")
+      .post("/api/game/63b048cade1b0dc478bee034/join")
       .then((response) => {
         expect(response.statusCode).toBe(400);
         expect(response.body.code).toBe(400);
@@ -178,7 +178,7 @@ describe("Testing RSP endpoints", () => {
     Game.findById = jest.fn().mockResolvedValue(null);
 
     request(app)
-      .post("/game/63b048cade1b0dc478bee034/join")
+      .post("/api/game/63b048cade1b0dc478bee034/join")
       .then((response) => {
         expect(response.statusCode).toBe(404);
         expect(response.body.code).toBe(404);
@@ -202,7 +202,7 @@ describe("Testing RSP endpoints", () => {
     Game.findById = jest.fn().mockResolvedValue(game);
 
     request(app)
-      .post("/game/63b048cade1b0dc478bee034/action")
+      .post("/api/game/63b048cade1b0dc478bee034/action")
       .send({ nickname: "user1", action: "rock" })
       .then((response) => {
         expect(response.statusCode).toBe(200);
@@ -210,7 +210,7 @@ describe("Testing RSP endpoints", () => {
         expect(game.rounds[0].actions[0].action).toBe("rock");
         expect(game.rounds[0].winner).toBe("");
         request(app)
-          .post("/game/63b048cade1b0dc478bee034/action")
+          .post("/api/game/63b048cade1b0dc478bee034/action")
           .send({ nickname: "user2", action: "paper" })
           .then((response) => {
             expect(response.statusCode).toBe(200);
@@ -225,7 +225,7 @@ describe("Testing RSP endpoints", () => {
   test("/api/game/:gameId/action - 404", (done) => {
     Game.findById = jest.fn().mockResolvedValue(null);
     request(app)
-      .post("/game/63b048cade1b0dc478bee034/action")
+      .post("/api/game/63b048cade1b0dc478bee034/action")
       .send({ nickname: "user1", action: "rock" })
       .then((response) => {
         expect(response.statusCode).toBe(404);
@@ -242,7 +242,7 @@ describe("Testing RSP endpoints", () => {
       _id: "63b048cade1b0dc478bee034",
     });
     request(app)
-      .post("/game/63b048cade1b0dc478bee034/action")
+      .post("/api/game/63b048cade1b0dc478bee034/action")
       .send({ action: "rock" })
       .then((response) => {
         expect(response.statusCode).toBe(400);
@@ -258,7 +258,7 @@ describe("Testing RSP endpoints", () => {
     });
 
     request(app)
-      .post("/game/63b048cade1b0dc478bee034/action")
+      .post("/api/game/63b048cade1b0dc478bee034/action")
       .send({ nickname: "user1" })
       .then((response) => {
         expect(response.statusCode).toBe(400);
@@ -269,7 +269,7 @@ describe("Testing RSP endpoints", () => {
       });
 
     request(app)
-      .post("/game/63b048cade1b0dc478bee034/action")
+      .post("/api/game/63b048cade1b0dc478bee034/action")
       .send({ nickname: "user1", action: "test" })
       .then((response) => {
         expect(response.statusCode).toBe(400);
@@ -288,7 +288,7 @@ describe("Testing RSP endpoints", () => {
     });
 
     request(app)
-      .post("/game/63b048cade1b0dc478bee034/action")
+      .post("/api/game/63b048cade1b0dc478bee034/action")
       .send({ nickname: "user1", action: "rock" })
       .then((response) => {
         expect(response.statusCode).toBe(400);
@@ -308,7 +308,7 @@ describe("Testing RSP endpoints", () => {
     });
 
     request(app)
-      .post("/game/63b048cade1b0dc478bee034/action")
+      .post("/api/game/63b048cade1b0dc478bee034/action")
       .send({ nickname: "user1", action: "rock" })
       .then((response) => {
         expect(response.statusCode).toBe(400);
