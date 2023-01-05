@@ -39,7 +39,7 @@ npm run format
 
 # API specification
 
-## GET /game/:gameId
+## GET /api/game/:gameId
 
 Get a game object.
 
@@ -61,28 +61,28 @@ Return object:
 }
 ```
 
-## POST /game
+## POST /api/game
 
 Create a new game.
 
 Payload: {nickname: string, max_rounds: string}
 Return object: {}
 
-## POST /game/:gameId/join
+## POST /api/game/:gameId/join
 
 Join to the game.
 
 Payload: {nickname: string}
 Return object: {}
 
-## POST /game/:gameId/action
+## POST /api/game/:gameId/action
 
 Make an action on the game.
 
 Payload: {nickname: string, action: string}
 Return object: {}
 
-## GET /stat
+## GET /api/stat
 
 Get statistics.
 

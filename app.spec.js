@@ -8,8 +8,8 @@ afterAll(() => {
 });
 
 describe("Testing RSP endpoints", () => {
-  // Testing GET /game/:gameId
-  test("/game/:gameId", (done) => {
+  // Testing GET /api/game/:gameId
+  test("/api/game/:gameId", (done) => {
     Game.findById = jest.fn().mockResolvedValue({
       _id: "63b048cade1b0dc478bee034",
       rounds: [
@@ -36,7 +36,7 @@ describe("Testing RSP endpoints", () => {
       });
   });
 
-  test("/game/:gameId - 404", (done) => {
+  test("/api/game/:gameId - 404", (done) => {
     Game.findById = jest.fn().mockResolvedValue(null);
 
     request(app)
@@ -52,7 +52,7 @@ describe("Testing RSP endpoints", () => {
   });
 
   // Testing POST /game/
-  test("/game", (done) => {
+  test("/api/game", (done) => {
     request(app)
       .post("/game")
       .send({ nickname: "user1", max_rounds: "5" })
@@ -63,7 +63,7 @@ describe("Testing RSP endpoints", () => {
       });
   });
 
-  test("/game - 400 invalid max rounds", (done) => {
+  test("/api/game - 400 invalid max rounds", (done) => {
     request(app)
       .post("/game")
       .send({ nickname: "user1", max_rounds: "11" })
@@ -88,7 +88,7 @@ describe("Testing RSP endpoints", () => {
       });
   });
 
-  test("/game - 400 invalid nickname", (done) => {
+  test("/api/game - 400 invalid nickname", (done) => {
     request(app)
       .post("/game")
       .send({ max_rounds: "5" })
@@ -100,8 +100,8 @@ describe("Testing RSP endpoints", () => {
       });
   });
 
-  // Testing POST /game/:gameId/join
-  test("/game/:gameId/join", (done) => {
+  // Testing POST /api/game/:gameId/join
+  test("/api/game/:gameId/join", (done) => {
     Game.findById = jest.fn().mockResolvedValue({
       _id: "63b048cade1b0dc478bee034",
       players: [],
@@ -121,7 +121,7 @@ describe("Testing RSP endpoints", () => {
       });
   });
 
-  test("/game/:gameId/join - 400 too many players", (done) => {
+  test("/api/game/:gameId/join - 400 too many players", (done) => {
     Game.findById = jest.fn().mockResolvedValue({
       _id: "63b048cade1b0dc478bee034",
       players: [{ nickname: "user1" }, { nickname: "user2" }],
@@ -140,7 +140,7 @@ describe("Testing RSP endpoints", () => {
       });
   });
 
-  test("/game/:gameId/join - 400 game is finished", (done) => {
+  test("/api/game/:gameId/join - 400 game is finished", (done) => {
     Game.findById = jest.fn().mockResolvedValue({
       _id: "63b048cade1b0dc478bee034",
       state: GAME_FINISHED,
@@ -159,7 +159,7 @@ describe("Testing RSP endpoints", () => {
       });
   });
 
-  test("/game/:gameId/join - 400 nickname is not provided", (done) => {
+  test("/api/game/:gameId/join - 400 nickname is not provided", (done) => {
     Game.findById = jest.fn().mockResolvedValue({
       _id: "63b048cade1b0dc478bee034",
     });
@@ -174,7 +174,7 @@ describe("Testing RSP endpoints", () => {
       });
   });
 
-  test("/game/:gameId/join - 404", (done) => {
+  test("/api/game/:gameId/join - 404", (done) => {
     Game.findById = jest.fn().mockResolvedValue(null);
 
     request(app)
@@ -189,8 +189,8 @@ describe("Testing RSP endpoints", () => {
       });
   });
 
-  // Testing POST /game/:gameId/action
-  test("/game/:gameId/action", (done) => {
+  // Testing POST /api/game/:gameId/action
+  test("/api/game/:gameId/action", (done) => {
     const game = new Game({
       _id: "63b048cade1b0dc478bee034",
       players: [],
@@ -222,7 +222,7 @@ describe("Testing RSP endpoints", () => {
       });
   });
 
-  test("/game/:gameId/action - 404", (done) => {
+  test("/api/game/:gameId/action - 404", (done) => {
     Game.findById = jest.fn().mockResolvedValue(null);
     request(app)
       .post("/game/63b048cade1b0dc478bee034/action")
@@ -237,7 +237,7 @@ describe("Testing RSP endpoints", () => {
       });
   });
 
-  test("/game/:gameId/action - 400 nickname is not provided", (done) => {
+  test("/api/game/:gameId/action - 400 nickname is not provided", (done) => {
     Game.findById = jest.fn().mockResolvedValue({
       _id: "63b048cade1b0dc478bee034",
     });
@@ -252,7 +252,7 @@ describe("Testing RSP endpoints", () => {
       });
   });
 
-  test("/game/:gameId/action - 400 action is not provided or invalid", (done) => {
+  test("/api/game/:gameId/action - 400 action is not provided or invalid", (done) => {
     Game.findById = jest.fn().mockResolvedValue({
       _id: "63b048cade1b0dc478bee034",
     });
@@ -281,7 +281,7 @@ describe("Testing RSP endpoints", () => {
       });
   });
 
-  test("/game/:gameId/action - 400 game is finished", (done) => {
+  test("/api/game/:gameId/action - 400 game is finished", (done) => {
     Game.findById = jest.fn().mockResolvedValue({
       _id: "63b048cade1b0dc478bee034",
       state: GAME_FINISHED,
@@ -300,7 +300,7 @@ describe("Testing RSP endpoints", () => {
       });
   });
 
-  test("/game/:gameId/action - 400 action was set already", (done) => {
+  test("/api/game/:gameId/action - 400 action was set already", (done) => {
     Game.findById = jest.fn().mockResolvedValue({
       _id: "63b048cade1b0dc478bee034",
       rounds: [{ actions: [{ nickname: "user1", action: "rock" }] }],
@@ -320,10 +320,10 @@ describe("Testing RSP endpoints", () => {
       });
   });
 
-  // Testing GET /stat
-  test("/stat", (done) => {
+  // Testing GET /api/stat
+  test("/api/stat", (done) => {
     request(app)
-      .get("/stat")
+      .get("/api/stat")
       .then((response) => {
         expect(response.statusCode).toBe(200);
         done();

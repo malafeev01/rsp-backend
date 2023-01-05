@@ -62,7 +62,7 @@ webSocketServer.on("connection", (ws) => {
   ws.send(JSON.stringify(CONNECTED));
 });
 
-app.post("/game", (req, res) => {
+app.post("/api/game", (req, res) => {
   const maxRounds = req.body.max_rounds;
   const nickname = req.body.nickname;
 
@@ -93,7 +93,7 @@ app.post("/game", (req, res) => {
   });
 });
 
-app.get("/game/:gameId", (req, res) => {
+app.get("/api/game/:gameId", (req, res) => {
   const gameId = req.params.gameId;
   Game.findById(gameId).then((game) => {
     if (!game) {
@@ -110,7 +110,7 @@ app.get("/game/:gameId", (req, res) => {
   });
 });
 
-app.post("/game/:gameId/join", (req, res) => {
+app.post("/api/game/:gameId/join", (req, res) => {
   const gameId = req.params.gameId;
   Game.findById(gameId).then((game) => {
     if (!game) {
@@ -162,7 +162,7 @@ app.post("/game/:gameId/join", (req, res) => {
   });
 });
 
-app.post("/game/:gameId/action", (req, res) => {
+app.post("/api/game/:gameId/action", (req, res) => {
   const gameId = req.params.gameId;
   Game.findById(gameId).then((game) => {
     if (!game) {
@@ -271,7 +271,7 @@ app.post("/game/:gameId/action", (req, res) => {
   });
 });
 
-app.get("/stat", (req, res) => {
+app.get("/api/stat", (req, res) => {
   Stat.find({}, {}, { sort: { win_games: "desc" }, limit: 10 }, (err, stat) => {
     return res.send(stat);
   });
