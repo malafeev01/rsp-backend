@@ -1,7 +1,11 @@
 import request from "supertest";
-import { app } from "./app";
+import { app, webSocketServer } from "./app";
 import { Game, GAME_FINISHED } from "./models/game.js";
 import * as mockingoose from "mockingoose";
+
+afterAll(() => {
+  webSocketServer.close();
+});
 
 describe("Testing RSP endpoints", () => {
   // Testing GET /game/:gameId

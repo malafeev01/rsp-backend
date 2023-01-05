@@ -32,18 +32,10 @@ function logRequest(req, res, next) {
 }
 app.use(logRequest);
 
-// TODO delete it
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
-});
-
 //Starting WebSockets server
-const webSocketServer = new WebSocketServer({ port: CONFIG.WS_SERVER_PORT });
+export const webSocketServer = new WebSocketServer({
+  port: CONFIG.WS_SERVER_PORT,
+});
 
 // This is in-memory structure for storing WebSocket connections
 const CONNECTIONS = {};
