@@ -1,7 +1,6 @@
 import express from "express";
 import winston from "winston";
 import { WebSocketServer } from "ws";
-import fs from "fs";
 
 import { Game, GAME_IN_PROGRESS, GAME_FINISHED } from "./models/game.js";
 import { Stat } from "./models/stat.js";
@@ -9,15 +8,18 @@ import { ROCK, PAPER, SCISSORS, TIE } from "./constants/constants.js";
 import { CONNECTED, getErrorEvent } from "./constants/events.js";
 import { LOGGER_FORMAT } from "./constants/logger.js";
 import { getGameWinner, getRoundWinner, notifyPlayers } from "./utils/utils.js";
+import Config from "./utils/config.js";
 
-//Reading config file
-export const CONFIG = JSON.parse(fs.readFileSync("./env.json", "utf8"));
+//Initializing config object
+export const config = new Config();
 
 //Initializing the logging system
 export const logger = winston.createLogger({
   level: "debug",
   format: LOGGER_FORMAT,
-  transports: [new winston.transports.File({ filename: CONFIG.LOG_FILE_NAME })],
+  transports: [
+    new winston.transports.File({ filename: config.get("LOG_FILE_NAME") }),
+  ],
 });
 
 logger.info("RSP server is starting");
@@ -34,7 +36,7 @@ app.use(logRequest);
 
 //Starting WebSockets server
 export const webSocketServer = new WebSocketServer({
-  port: CONFIG.WS_SERVER_PORT,
+  port: config.get("WS_SERVER_PORT"),
 });
 
 // This is in-memory structure for storing WebSocket connections
