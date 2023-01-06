@@ -9,6 +9,7 @@ import { CONNECTED, getErrorEvent } from "./constants/events.js";
 import { LOGGER_FORMAT } from "./constants/logger.js";
 import { getGameWinner, getRoundWinner, notifyPlayers } from "./utils/utils.js";
 import Config from "./utils/config.js";
+import mongoose from "mongoose";
 
 //Initializing config object
 export const config = new Config();
@@ -97,6 +98,13 @@ app.post("/api/game", (req, res) => {
 
 app.get("/api/game/:gameId", (req, res) => {
   const gameId = req.params.gameId;
+  
+  if (!mongoose.isObjectIdOrHexString(gameId)) {
+    return res
+      .status(400)
+      .send({ code: 400, error: `Incorrect game id "${gameId}"` });
+  }
+
   Game.findById(gameId).then((game) => {
     if (!game) {
       return res
@@ -114,6 +122,13 @@ app.get("/api/game/:gameId", (req, res) => {
 
 app.post("/api/game/:gameId/join", (req, res) => {
   const gameId = req.params.gameId;
+
+  if (!mongoose.isObjectIdOrHexString(gameId)) {
+    return res
+      .status(400)
+      .send({ code: 400, error: `Incorrect game id "${gameId}"` });
+  }
+
   Game.findById(gameId).then((game) => {
     if (!game) {
       return res
@@ -166,6 +181,13 @@ app.post("/api/game/:gameId/join", (req, res) => {
 
 app.post("/api/game/:gameId/action", (req, res) => {
   const gameId = req.params.gameId;
+
+  if (!mongoose.isObjectIdOrHexString(gameId)) {
+    return res
+      .status(400)
+      .send({ code: 400, error: `Incorrect game id "${gameId}"` });
+  }
+
   Game.findById(gameId).then((game) => {
     if (!game) {
       return res
